@@ -1,0 +1,36 @@
+# Ejecutar este docker en local:
+
+# 1. Crear un archivo .env dentro de la carpeta y agregar las siguientes variables
+# MYSQL_ROOT_PASSWORD=
+# MYSQL_DATABASE=
+# MYSQL_USER=
+# MYSQL_PASSWORD=
+
+# 2. Levantar el docker:
+# docker-compose up --build -d
+
+# Entrar al Shell de MySQL desde Compose
+# docker-compose exec db mysql -pypractice_user -pypractice_password pypractice_db
+
+# Entrar al Shell de Mysql desde Shell
+# mysql -h <ip> -u<pypractice_user> -p<pypractice_password> -P 3306
+
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: pypractice_mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3308:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

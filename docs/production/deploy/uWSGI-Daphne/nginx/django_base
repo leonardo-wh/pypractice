@@ -1,0 +1,134 @@
+upstream pypractice{
+    server unix://home/DjangoBase_Server/pypractice/pypractice_uwsgi.sock;
+}
+
+upstream django-channels-pypractice {
+   server 127.0.0.1:8009;
+}
+
+server {
+    # Escuchar en el puerto 80
+    listen 80;
+
+    # Para solicitudes a estos dominios
+    server_name *.djangobase.com djangobase.com;
+
+    # Buscar en este directorio los archivos a servir
+    location /static/ {
+        alias /home/DjangoBase_Server/pypractice/static/;
+        include h5bp/location/expires.conf;
+
+    }
+
+    # Guardar los logs en los siguientes archivos
+    access_log /home/DjangoBase_Server/pypractice/.logs/nginx/pypractice.access.log;
+    error_log /home/DjangoBase_Server/pypractice/.logs/nginx/pypractice.error.log;
+
+    location / {
+        #proxy_read_timeout 600;
+        #proxy_connect_timeout 600;
+        error_page 413 /documentacion/error-413-37/;
+        include         uwsgi_params;
+        uwsgi_pass pypractice;
+        proxy_redirect off;
+
+        client_max_body_size 15M;
+        client_body_buffer_size 128k;
+
+        proxy_read_timeout 600s;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For
+        $proxy_add_x_forwarded_for;
+
+    }
+
+    # WebSocket Django-Channel
+    location /ws/channel/ {
+        proxy_pass http://django-channels-pypractice;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+    }
+
+    #Codificacion
+    charset utf-8;
+
+    #Configuracion Basica
+    include h5bp/basic.conf;
+}
+
+
+server {
+    listen 443 ssl http2;
+
+    #Para solicitudes a estos dominios
+    server_name *.djangobase.com djangobase.com;
+
+    ssl on;
+    ssl_certificate /home/DjangoBase_Server/pypractice/.config/ssl_certs/djangobase.com.crt;
+    ssl_certificate_key /home/DjangoBase_Server/pypractice/.config/ssl_certs/djangobase.com.key;
+
+
+    #Configuracion SSL
+    include h5bp/directive-only/ssl.conf;
+
+    # Buscar en este directorio los archivos a servir
+    location /static/ {
+        alias /home/DjangoBase_Server/pypractice/static/;
+        include h5bp/location/expires.conf;
+
+    }
+
+    # Guardar los logs en los siguientes archivos
+    access_log /home/DjangoBase_Server/pypractice/.logs/nginx/pypractice.access.log;
+    error_log /home/DjangoBase_Server/pypractice/.logs/nginx/pypractice.error.log;
+
+    location / {
+        #proxy_read_timeout 600;
+        #proxy_connect_timeout 600;
+        error_page 413 /documentacion/error-413-37/;
+        include         uwsgi_params;
+        uwsgi_pass pypractice;
+        proxy_redirect off;
+
+        client_max_body_size 15M;
+        client_body_buffer_size 128k;
+
+        proxy_read_timeout 600s;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For
+        $proxy_add_x_forwarded_for;
+
+    }
+
+    # WebSocket Django-Channel
+    location /ws/channel/ {
+        proxy_pass http://django-channels-pypractice;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+    }
+
+    #Codificacion
+    charset utf-8;
+
+    #Configuracion Basica
+    include h5bp/basic.conf;
+
+}
