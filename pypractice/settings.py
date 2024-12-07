@@ -13,6 +13,11 @@ import os
 from pathlib import Path
 import environ
 
+try:
+    from pypractice.settings_server import *
+except ImportError:
+    print("No se pudo importar settings_server")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,7 +42,8 @@ env = environ.Env(
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+# DEBUG = env('DEBUG')
+print(DEBUG)
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
@@ -60,8 +66,11 @@ DJANGO_APPS = [
     'channels',
 ]
 
-THIRD_PARTY_APPS = []
-
+THIRD_PARTY_APPS = [
+    'allauth',
+    'allauth.account',
+    'phonenumber_field',
+]
 PROJECT_APPS = [
     'pypractice.apps.users',
 ]
@@ -76,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'pypractice.core.urls'
@@ -95,6 +105,15 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django cetc_admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 WSGI_APPLICATION = 'pypractice.core.wsgi.application'
 
@@ -178,6 +197,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# django allauth
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USERNAME_REQUIRED = False
 
 
 # Keep this at the end of the file.

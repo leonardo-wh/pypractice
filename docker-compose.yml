@@ -1,0 +1,44 @@
+# Si es primera vez ejecutar:
+# CONDITION=CREATE docker-compose up --build
+# Si no:
+# docker-compose up
+
+
+# Entrar a consola: docker-compose exec web bash
+
+version: '3.10'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: pypractice_mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pypractice_password
+      MYSQL_DATABASE: pypractice_db
+      MYSQL_USER: pypractice_user
+      MYSQL_PASSWORD: pypractice_test
+    ports:
+      - "3308:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: ./docker/commands/conditional_up.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+      - "6655:6655"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_SETTINGS_MODULE=pypractice.settings
+      - SECRET_KEY=django-insecure-xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - CONDITION=$CONDITION
+
+volumes:
+  db_data:

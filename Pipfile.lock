@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8429022a5eb6ebce7e2b3e90b33ab6452e2a1c2efdeeb5d503146725bdc2cd54"
+            "sha256": "b0bfaf8bd780a1f60d20e3e678c2e48d89f425de905cb80d9ca7fed8ba2d9d60"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -218,6 +218,14 @@
             ],
             "index": "pypi",
             "version": "==0.2.15"
+        },
+        "django-countryfield": {
+            "hashes": [
+                "sha256:c7c1180e72a9aac019fa2e737153e8c3288b4f189134b5cb37337c43be0da1b7",
+                "sha256:d0a351a88e6bd39bff49b04e54cb8b99aef89ee9ee5893186f9a4326963aa65c"
+            ],
+            "index": "pypi",
+            "version": "==7.6"
         },
         "django-environ": {
             "hashes": [
@@ -479,11 +487,11 @@
         },
         "redis": {
             "hashes": [
-                "sha256:0b1087665a771b1ff2e003aa5bdd354f15a70c9e25d5a7dbf9c722c16528a7b0",
-                "sha256:ae174f2bb3b1bf2b09d54bf3e51fbc1469cf6c10aa03e21141f51969801a7897"
+                "sha256:16f2e22dff21d5125e8481515e386711a34cbec50f0e44413dd7d9c060a54e0f",
+                "sha256:ee7e1056b9aea0f04c6c2ed59452947f34c4940ee025f5dd83e6a6418b6989e4"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==5.2.0"
+            "version": "==5.2.1"
         },
         "service-identity": {
             "hashes": [
@@ -551,11 +559,11 @@
                 "tls"
             ],
             "hashes": [
-                "sha256:02951299672595fea0f70fa2d5f7b5e3d56836157eda68859a6ad6492d36756e",
-                "sha256:67aa7c8aa94387385302acf44ade12967c747858c8bcce0f11d38077a11c5326"
+                "sha256:695d0556d5ec579dcc464d2856b634880ed1319f45b10d19043f2b57eb0115b5",
+                "sha256:fe403076c71f04d5d2d789a755b687c5637ec3bcd3b2b8252d76f2ba65f54261"
             ],
             "markers": "python_full_version >= '3.8.0'",
-            "version": "==24.10.0"
+            "version": "==24.11.0"
         },
         "txaio": {
             "hashes": [
@@ -570,7 +578,7 @@
                 "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d",
                 "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"
             ],
-            "markers": "python_version < '3.11'",
+            "markers": "python_version >= '3.8'",
             "version": "==4.12.2"
         },
         "zope-interface": {
@@ -655,7 +663,7 @@
                 "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d",
                 "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"
             ],
-            "markers": "python_version < '3.11'",
+            "markers": "python_version >= '3.8'",
             "version": "==4.12.2"
         }
     }
